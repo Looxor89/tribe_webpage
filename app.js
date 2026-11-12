@@ -55,4 +55,26 @@ dlg.querySelector('.x').onclick = () => dlg.close();
 document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => tab(b.dataset.tab));
 $('#one-tap').onclick = async () => { if (dp) { dp.prompt(); await dp.userChoice; dlg.close(); } };
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
+
+// Aggiornamenti automatici: confronta i file del sito con quelli caricati all'apertura
+const FILES = ['index.html', 'style.css', 'app.js', 'config.js', 'eventi.js'];
+const hash = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(16); };
+const snapshot = async () => hash((await Promise.all(FILES.map(f => fetch(f, { cache: 'no-cache' }).then(r => r.text())))).join('\0'));
+let base = null, bannerShown = false;
+function banner() {
+  if (bannerShown) return; bannerShown = true;
+  const b = document.createElement('div'); b.className = 'banner';
+  b.innerHTML = 'Nuova versione disponibile <button type="button">Aggiorna</button>';
+  b.querySelector('button').onclick = () => location.reload(); document.body.append(b);
+}
+async function controlla(auto) {
+  try {
+    const now = await snapshot();
+    if (base === null) { base = now; $('#ver').textContent = 'v. ' + now.slice(0, 6); return; }
+    if (now !== base) auto ? location.reload() : banner();
+  } catch (e) {}
+}
+controlla();
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') controlla(true); });
+setInterval(() => { if (document.visibilityState === 'visible') controlla(false); }, 300000);
