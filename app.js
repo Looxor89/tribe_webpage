@@ -8,10 +8,13 @@ const MAIL = ico('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7
 
 function home() {
   return `<a class="navcard" href="#uscite"><span>Prossime uscite</span><span aria-hidden="true">→</span></a>
-    <section><h2 class="sez">Chi siamo</h2><img class="foto" alt="${esc(S.chiSiamo.alt)}"><p>${esc(S.chiSiamo.testo)}</p></section>
-    <section><h2 class="sez">Social</h2><div class="social">
+    <section><h2 class="sez">Chi siamo</h2><img class="foto" alt="${esc(S.chiSiamo.alt)}"><p>${esc(S.chiSiamo.testo)}</p></section>`;
+}
+
+function contatti() {
+  return `<a class="back" href="#">← Home</a><h1>Contatti</h1><p class="sub">Scrivici o seguici.</p><div class="social">
       <a href="${esc(S.social.instagram)}" target="_blank" rel="noopener">${IG}Instagram</a>
-      <a href="mailto:${esc(S.social.email)}">${MAIL}${esc(S.social.email)}</a></div></section>`;
+      <a href="mailto:${esc(S.social.email)}">${MAIL}${esc(S.social.email)}</a></div>`;
 }
 
 const card = e => `<a class="card" href="#${esc(e.id)}"><h2>${esc(e.titolo)}</h2><span class="price">${euro(e.prezzo)}</span><span class="meta">${quando(e.data)} · ${esc(e.citta)}</span></a>`;
@@ -37,7 +40,7 @@ function dettaglio(e) {
 
 function render() {
   const h = location.hash.slice(1), e = T.eventi.find(x => x.id === h);
-  $('#app').innerHTML = h === 'uscite' ? uscite() : e ? dettaglio(e) : home();
+  $('#app').innerHTML = h === 'uscite' ? uscite() : h === 'contatti' ? contatti() : e ? dettaglio(e) : home();
   const f = $('.foto');
   if (f) { // prova più nomi/estensioni: basta caricare chi-siamo.jpg (o .jpeg, .png, .webp)
     const c = [...(S.chiSiamo.img && S.chiSiamo.img !== 'chi-siamo.svg' ? [S.chiSiamo.img] : []), 'chi-siamo.jpg', 'chi-siamo.jpeg', 'chi-siamo.png', 'chi-siamo.webp', 'chi-siamo.JPG', 'chi-siamo.JPEG', 'chi-siamo.svg'];
@@ -83,3 +86,12 @@ async function controlla(auto) {
 controlla();
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') controlla(true); });
 setInterval(() => { if (document.visibilityState === 'visible') controlla(false); }, 300000);
+
+// Menu hamburger
+const burger = $('#burger'), menu = $('#menu');
+const chiudi = () => { menu.hidden = true; burger.setAttribute('aria-expanded', 'false'); };
+burger.onclick = e => { e.stopPropagation(); const apri = menu.hidden; menu.hidden = !apri; burger.setAttribute('aria-expanded', String(apri)); };
+menu.addEventListener('click', e => { if (e.target.closest('a, button')) chiudi(); });
+document.addEventListener('click', e => { if (!menu.hidden && !menu.contains(e.target)) chiudi(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') chiudi(); });
+addEventListener('hashchange', chiudi);

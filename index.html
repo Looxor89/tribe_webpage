@@ -16,7 +16,8 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header><a href="#" class="logo" aria-label="Tribe, home"><picture><source media="(prefers-color-scheme: dark)" srcset="logo-dark.png"><img src="logo-light.png" alt="Tribe" width="52" height="52"></picture></a><button id="btn-install" type="button">Installa l'app</button></header>
+<header><a href="#" class="logo" aria-label="Tribe, home"><picture><source media="(prefers-color-scheme: dark)" srcset="logo-dark.png"><img src="logo-light.png" alt="Tribe" width="52" height="52"></picture></a><button id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button></header>
+<nav id="menu" class="menu" hidden><a href="#uscite">Prossime uscite</a><a href="#contatti">Contatti</a><button id="btn-install" type="button">Installa l'app</button></nav>
 <main id="app"></main>
 <footer id="ver"></footer>
 <dialog id="install">
