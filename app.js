@@ -56,7 +56,39 @@ function render() {
   }
   scrollTo(0, 0);
 }
-addEventListener('hashchange', render); render();
+
+//dialog iniziale
+function initInstallPrompt() {
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Impedisce a Chrome/Android di mostrare il banner automatico
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Seleziona il dialog dal DOM
+        const installDialog = document.getElementById('install');
+        if (installDialog) {
+            installDialog.showModal(); // Apre il dialog con le tue istruzioni manuali
+        }
+    });
+
+    // Se hai un pulsante di chiusura (es. una X o un bottone "Chiudi") dentro al dialog
+    const closeButton = document.getElementById('chiudi-install'); // Sostituisci con l'ID del tuo bottone di chiusura
+    const installDialog = document.getElementById('install');
+    
+    if (closeButton && installDialog) {
+        closeButton.addEventListener('click', () => {
+            installDialog.close();
+        });
+    }
+}
+
+//caricamento pagina
+addEventListener('hashchange', render);
+render();
+// Inizializza anche la logica per il dialog di installazione
+initInstallPrompt();
 
 // Schermata di caricamento iniziale: sparisce quando font e foto sono pronti (max 8 secondi)
 const attendi = ms => new Promise(r => setTimeout(r, ms));
