@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tribe Events</title>
+<meta name="description" content="Uscite ed eventi della tribe. Scegli, tocca Partecipa, ti scriviamo su WhatsApp.">
+<meta name="theme-color" content="#2A3BDB">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tribe">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><a href="#" class="logo">Tribe</a><button id="btn-install" type="button">Installa l'app</button></header>
+<main id="app"></main>
+<dialog id="install">
+  <button class="x" type="button" aria-label="Chiudi">×</button>
+  <h2>Aggiungi alla home</h2>
+  <p>Si apre a schermo intero come un'app.</p>
+  <div class="tabs"><button data-tab="iphone" aria-pressed="true">iPhone</button><button data-tab="android" aria-pressed="false">Android</button></div>
+  <ol data-pane="iphone">
+    <li>Apri il sito in <b>Safari</b>. Se sei in Instagram o WhatsApp, scegli prima «Apri in Safari».</li>
+    <li>Tocca <b>Condividi</b> nella barra in basso (se non la vedi, tocca ⋯).</li>
+    <li>Scorri e tocca <b>«Aggiungi alla schermata Home»</b>.</li>
+    <li>Tocca <b>Aggiungi</b> in alto a destra. Da ora apri Tribe dall'icona.</li>
+  </ol>
+  <ol data-pane="android" hidden>
+    <li>Apri il sito in <b>Chrome</b>.</li>
+    <li>Tocca il menu <b>⋮</b> in alto a destra.</li>
+    <li>Tocca <b>«Installa app»</b> o <b>«Aggiungi a schermata Home»</b>.</li>
+    <li>Conferma. Da ora apri Tribe dall'icona.</li>
+  </ol>
+  <button id="one-tap" type="button" hidden>Installa con un tap</button>
+</dialog>
+<script src="eventi.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
