@@ -8,7 +8,7 @@ const MAIL = ico('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7
 
 function home() {
   return `<a class="navcard" href="#uscite"><span>Prossime uscite</span><span aria-hidden="true">→</span></a>
-    <section><h2 class="sez">Chi siamo</h2><img class="foto" alt="${esc(S.chiSiamo.alt)}"><p>${esc(S.chiSiamo.testo)}</p></section>`;
+    <section><h2 class="sez">Chi siamo</h2><div class="fotobox"><img class="foto" alt="${esc(S.chiSiamo.alt)}"></div><p>${esc(S.chiSiamo.testo)}</p></section>`;
 }
 
 function contatti() {
@@ -38,17 +38,31 @@ function dettaglio(e) {
     <p class="note">Si apre WhatsApp con un messaggio già pronto: aggiungi il tuo nome e invialo. Il tuo numero arriva solo agli organizzatori, il sito non salva nulla.</p>`;
 }
 
+let fotoPronta = Promise.resolve();
 function render() {
   const h = location.hash.slice(1), e = T.eventi.find(x => x.id === h);
   $('#app').innerHTML = h === 'uscite' ? uscite() : h === 'contatti' ? contatti() : e ? dettaglio(e) : home();
+  fotoPronta = Promise.resolve();
   const f = $('.foto');
   if (f) { // prova più nomi/estensioni: basta caricare chi-siamo.jpg (o .jpeg, .png, .webp)
-    const c = [...(S.chiSiamo.img && S.chiSiamo.img !== 'chi-siamo.svg' ? [S.chiSiamo.img] : []), 'chi-siamo.jpg', 'chi-siamo.jpeg', 'chi-siamo.png', 'chi-siamo.webp', 'chi-siamo.JPG', 'chi-siamo.JPEG', 'chi-siamo.svg'];
-    let i = 0; f.onerror = () => { if (++i < c.length) f.src = c[i]; }; f.src = c[0];
+    const box = f.parentElement;
+    fotoPronta = new Promise(res => {
+      const c = [...(S.chiSiamo.img && S.chiSiamo.img !== 'chi-siamo.svg' ? [S.chiSiamo.img] : []), 'chi-siamo.jpg', 'chi-siamo.jpeg', 'chi-siamo.png', 'chi-siamo.webp', 'chi-siamo.JPG', 'chi-siamo.JPEG', 'chi-siamo.svg'];
+      let i = 0;
+      f.onload = () => { box.classList.add('ok'); res(); };
+      f.onerror = () => { if (++i < c.length) f.src = c[i]; else { box.classList.add('ko'); res(); } };
+      f.src = c[0];
+    });
   }
   scrollTo(0, 0);
 }
 addEventListener('hashchange', render); render();
+
+// Schermata di caricamento iniziale: sparisce quando font e foto sono pronti (max 8 secondi)
+const attendi = ms => new Promise(r => setTimeout(r, ms));
+Promise.race([Promise.all([fotoPronta, Promise.race([document.fonts.ready, attendi(1500)])]), attendi(8000)]).then(() => {
+  const l = $('#loader'); l.classList.add('hide'); setTimeout(() => l.remove(), 400);
+});
 
 // Installazione sulla home
 const dlg = $('#install'); let dp = null;
@@ -56,7 +70,7 @@ const tab = t => {
   document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tab === t)));
   document.querySelectorAll('[data-pane]').forEach(p => p.hidden = p.dataset.pane !== t);
 };
-addEventListener('beforeinstallprompt', ev => { ev.preventDefault(); dp = ev; $('#one-tap').hidden = false; });
+addEventListener('beforeinstallprompt', ev => { ev.preventDefault(); dp = ev; if (/android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent)) $('#one-tap').hidden = false; });
 if (matchMedia('(display-mode: standalone)').matches || navigator.standalone) $('#btn-install').hidden = true;
 $('#btn-install').onclick = () => { tab(/android/i.test(navigator.userAgent) ? 'android' : 'iphone'); dlg.showModal(); };
 dlg.querySelector('.x').onclick = () => dlg.close();

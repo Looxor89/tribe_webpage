@@ -41,3 +41,14 @@ dialog ol{padding-left:22px;display:grid;gap:10px;margin:0 0 16px}dialog ol[hidd
 .menu[hidden],.menu [hidden]{display:none}
 .menu a,.menu button{font:inherit;font-weight:800;font-size:1.2rem;text-align:left;color:var(--ink);background:none;border:0;padding:14px 12px;border-radius:12px;cursor:pointer}
 .menu a:hover,.menu button:hover{background:#eceeff}
+
+@keyframes gira{to{transform:rotate(360deg)}}
+.ring,.fotobox::after{border-radius:50%;border:4px solid rgba(255,255,255,.35);border-top-color:#fff;animation:gira .8s linear infinite}
+#loader{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-content:center;justify-items:center;gap:28px;transition:opacity .35s}
+#loader img{display:block;width:84px;height:84px;border-radius:18px}#loader.hide{opacity:0;pointer-events:none}
+.ring{width:44px;height:44px;border-width:5px}
+.fotobox{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:rgba(0,0,0,.14);margin-bottom:14px}
+.fotobox .foto{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;border-radius:0;margin:0;opacity:0;transition:opacity .3s}
+.fotobox.ok .foto{opacity:1}
+.fotobox::after{content:'';position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px 0 0 -20px}
+.fotobox.ok::after,.fotobox.ko::after{display:none}

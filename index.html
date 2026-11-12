@@ -12,10 +12,12 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div id="loader" role="status" aria-label="Caricamento"><picture><source media="(prefers-color-scheme: dark)" srcset="logo-dark.png"><img src="logo-light.png" alt="" width="84" height="84"></picture><div class="ring"></div></div>
+<noscript><style>#loader{display:none}</style></noscript>
 <header><a href="#" class="logo" aria-label="Tribe, home"><picture><source media="(prefers-color-scheme: dark)" srcset="logo-dark.png"><img src="logo-light.png" alt="Tribe" width="52" height="52"></picture></a><button id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button></header>
 <nav id="menu" class="menu" hidden><a href="#uscite">Prossime uscite</a><a href="#contatti">Contatti</a><button id="btn-install" type="button">Installa l'app</button></nav>
 <main id="app"></main>
