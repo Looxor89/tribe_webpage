@@ -8,7 +8,7 @@ const MAIL = ico('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7
 
 function home() {
   return `<a class="navcard" href="#uscite"><span>Prossime uscite</span><span aria-hidden="true">→</span></a>
-    <section><h2 class="sez">Chi siamo</h2><img class="foto" src="${esc(S.chiSiamo.img)}" alt="${esc(S.chiSiamo.alt)}"><p>${esc(S.chiSiamo.testo)}</p></section>
+    <section><h2 class="sez">Chi siamo</h2><img class="foto" alt="${esc(S.chiSiamo.alt)}"><p>${esc(S.chiSiamo.testo)}</p></section>
     <section><h2 class="sez">Social</h2><div class="social">
       <a href="${esc(S.social.instagram)}" target="_blank" rel="noopener">${IG}Instagram</a>
       <a href="mailto:${esc(S.social.email)}">${MAIL}${esc(S.social.email)}</a></div></section>`;
@@ -38,6 +38,11 @@ function dettaglio(e) {
 function render() {
   const h = location.hash.slice(1), e = T.eventi.find(x => x.id === h);
   $('#app').innerHTML = h === 'uscite' ? uscite() : e ? dettaglio(e) : home();
+  const f = $('.foto');
+  if (f) { // prova più nomi/estensioni: basta caricare chi-siamo.jpg (o .jpeg, .png, .webp)
+    const c = [...(S.chiSiamo.img && S.chiSiamo.img !== 'chi-siamo.svg' ? [S.chiSiamo.img] : []), 'chi-siamo.jpg', 'chi-siamo.jpeg', 'chi-siamo.png', 'chi-siamo.webp', 'chi-siamo.JPG', 'chi-siamo.JPEG', 'chi-siamo.svg'];
+    let i = 0; f.onerror = () => { if (++i < c.length) f.src = c[i]; }; f.src = c[0];
+  }
   scrollTo(0, 0);
 }
 addEventListener('hashchange', render); render();
