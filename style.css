@@ -52,3 +52,33 @@ dialog ol{padding-left:22px;display:grid;gap:10px;margin:0 0 16px}dialog ol[hidd
 .fotobox.ok .foto{opacity:1}
 .fotobox::after{content:'';position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px 0 0 -20px}
 .fotobox.ok::after,.fotobox.ko::after{display:none}
+
+/* DESKTOP: tablet e schermi grandi (se personalizzi style.css, copia da qui in giù) */
+html{scroll-padding-top:90px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (min-width:600px){
+  main{max-width:760px}
+  header{max-width:760px}
+  #app{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;align-items:start}
+  #app>*:not(.card){grid-column:1/-1}
+  #app>.price{grid-row:auto;align-self:start;justify-self:start}
+  #app>.back{justify-self:start}
+  .card{margin-bottom:0}
+  #app>.info,#app>p{max-width:70ch}
+  .cta{max-width:420px}
+  .social{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+}
+@media (min-width:900px){
+  body{font-size:18px}
+  main{max-width:1100px;padding:104px 32px 0}
+  header{max-width:1100px}
+  #burger,#btn-install{display:none}
+  .menu,.menu[hidden]{position:fixed;top:calc(10px + env(safe-area-inset-top));left:12px;right:12px;max-width:1100px;margin:0 auto;height:60px;padding:0 18px;display:flex;justify-content:flex-end;align-items:center;gap:4px;background:none;box-shadow:none;border-radius:0;z-index:21;pointer-events:none}
+  .menu a{pointer-events:auto;font-size:1rem;padding:10px 16px}
+  section{display:grid;grid-template-columns:1fr 1fr;gap:0 40px;align-items:center}
+  section>.sez{grid-column:1/-1}
+  section>.fotobox{margin-bottom:0}
+  #ver{max-width:1100px;padding:0 32px 24px}
+}
+@media (hover:hover){.card{transition:transform .15s}.card:hover{transform:translateY(-3px)}}
+#ver{margin-top:32px}
