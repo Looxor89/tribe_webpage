@@ -12,11 +12,11 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header><a href="#" class="logo">Tribe</a><button id="btn-install" type="button">Installa l'app</button></header>
+<header><a href="#" class="logo" aria-label="Tribe, home"><picture><source media="(prefers-color-scheme: dark)" srcset="logo-dark.png"><img src="logo-light.png" alt="Tribe" width="52" height="52"></picture></a><button id="btn-install" type="button">Installa l'app</button></header>
 <main id="app"></main>
 <dialog id="install">
   <button class="x" type="button" aria-label="Chiudi">×</button>
@@ -38,6 +38,7 @@
   <button id="one-tap" type="button" hidden>Installa con un tap</button>
 </dialog>
 <script src="eventi.js"></script>
+<script src="config.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
